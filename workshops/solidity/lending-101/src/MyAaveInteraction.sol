@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
-
-import "@aave-v3-core/contracts/interfaces/IPool.sol";
-
+import "lib/aave-v3-core/contracts/interfaces/IPool.sol";
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol"; // Interface ERC20
 
