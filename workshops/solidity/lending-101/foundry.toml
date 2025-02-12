@@ -5,6 +5,9 @@ libs = ["lib"]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
 
-[profile.remapping]
-"@openzeppelin/contracts/" = "lib/openzeppelin-contracts/contracts/"
-"forge-std" = "lib/forge-std/src/"
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/",
+    "@aave-v3-core/=lib/aave-v3-core/contracts/",
+    "@aave-v3-periphery/=lib/aave-v3-periphery/contracts/"
+]

@@ -4,7 +4,8 @@ pragma solidity ^0.8.19;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IPool.sol"; // Interface du pool AAVE
-import "./interfaces/IWETHGateway.sol";
+import "@aave-v3-periphery/misc/interfaces/IWETHGateway.sol";
+
 
 
 contract MyAaveInteraction is Ownable {
