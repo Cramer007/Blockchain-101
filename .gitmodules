@@ -7,3 +7,6 @@
 [submodule "workshops/solidity/lending-101/lib/aave-v3-periphery"]
 	path = workshops/solidity/lending-101/lib/aave-v3-periphery
 	url = https://github.com/aave/aave-v3-periphery
+[submodule "workshops/solidity/lending-101/lib/aave-v3-core"]
+	path = workshops/solidity/lending-101/lib/aave-v3-core
+	url = https://github.com/aave/aave-v3-core
