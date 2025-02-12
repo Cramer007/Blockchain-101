@@ -1,68 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "./interfaces/IPool.sol"; // Interface du pool AAVE
-import "@aave-v3-periphery/misc/interfaces/IWETHGateway.sol";
+import "@aave-v3-core/contracts/misc/interfaces/IUiPoolDataProviderV3.sol"; // Interface du Pool AAVE
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol"; // Interface ERC20
 
-
-
-contract MyAaveInteraction is Ownable {
+contract SimpleAaveDeposit {
     IPool public immutable aavePool;
-    IERC20 public immutable aDAI;
-    IERC20 public immutable USDC;
-    IERC20 public immutable variableDebtUSDC;
     IERC20 public immutable DAI;
-    IWETHGateway public immutable wethGateway;
 
+    constructor(address _aavePool, address _DAI) {
+        aavePool = IPool(_aavePool);
+        DAI = IERC20(_DAI);
+    }
 
+    /// @notice Déposer du DAI dans AAVE
+    function depositDAI(uint256 amount) external {
+        require(amount > 0, "Must deposit more than 0");
 
-    address public immutable evaluator;
-
-    constructor(
-    address _aavePool,
-    address _DAI,
-    address _aDAI,
-    address _USDC,
-    address _variableDebtUSDC,
-    address _wethGateway,
-    address _evaluator
-) {
-    aavePool = IPool(_aavePool);
-    DAI = IERC20(_DAI);
-    aDAI = IERC20(_aDAI);
-    USDC = IERC20(_USDC);
-    variableDebtUSDC = IERC20(_variableDebtUSDC);
-    wethGateway = IWETHGateway(_wethGateway);
-    evaluator = _evaluator;
-}
-
-
-    /// @notice Déposer des tokens dans AAVE
-    function depositSomeTokens() external {
-        uint256 amount = 10 * 10**18; // 10 DAI
+        // Approve AAVE Pool à utiliser nos DAI
         DAI.approve(address(aavePool), amount);
-        aavePool.supply(address(DAI), amount, address(this), 0);
-    }
 
-
-    /// @notice Emprunter des tokens depuis AAVE
-    function borrowSomeTokens() external {
-        uint256 amount = 5 * 10**6; // 5 USDC (USDC a 6 décimales)
-        aavePool.borrow(address(USDC), amount, 2, 0, address(this));
-    }
-
-    /// @notice Rembourser les tokens empruntés
-    function repaySomeTokens() external {
-        uint256 amount = 5 * 10**6; // 5 USDC
-        USDC.approve(address(aavePool), amount);
-        aavePool.repay(address(USDC), amount, 2, address(this));
-    }
-
-    /// @notice Retirer les tokens déposés
-    function withdrawSomeTokens() external {
-        uint256 amount = 10 * 10**18; // 10 DAI
-        aavePool.withdraw(address(USDC), amount, address(this));
+        // Déposer DAI dans AAVE
+        aavePool.supply(address(DAI), amount, msg.sender, 0);
     }
 }
